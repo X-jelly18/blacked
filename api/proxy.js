@@ -1,18 +1,18 @@
 const https = require('https');
 
 module.exports = async (req, res) => {
-const backendHost = 'http://gk.33ffkiyotaka222.ggff.net';
+const backendHost = 'gk.33ffkiyotaka222.ggff.net';
 const backendPath = req.url;
 
 const options = {
 hostname: backendHost,
-port: 443,
+port: 80,
 path: backendPath,
 method: req.method,
 headers: { ...req.headers, host: backendHost },
 };
 
-const backendReq = https.request(options, backendRes => {
+const backendReq = http.request(options, backendRes => {
 res.writeHead(backendRes.statusCode, backendRes.headers);
 backendRes.pipe(res, { end: true });
 });
