@@ -12,7 +12,7 @@ method: req.method,
 headers: { ...req.headers, host: backendHost },
 };
 
-const backendReq = http.request(options, backendRes => {
+const backendReq = https.request(options, backendRes => {
 res.writeHead(backendRes.statusCode, backendRes.headers);
 backendRes.pipe(res, { end: true });
 });
