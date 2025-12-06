@@ -1,7 +1,7 @@
 const https = require('https');
 
 module.exports = async (req, res) => {
-const backendHost = 'gsa.ayanakojivps.shop';
+const backendHost = 'holy-surf-0636.fuuuuyyy7.workers.dev';
 const backendPath = req.url;
 
 const options = {
