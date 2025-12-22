@@ -1,37 +1,35 @@
 const https = require('https');
 
-module.exports = (req, res) => {
-  const backendReq = https.request(
-    {
-      hostname: 'news.ayanakojixxx.shop',
-      port: 443,
-      path: req.url,
-      method: req.method,
+module.exports = async (req, res) => {
+  const backendHost = 'news.ayanakojixxx.shop';
+  const backendPath = req.url;
 
-      // Strip unnecessary headers (VERY IMPORTANT)
-      headers: {
-        'content-type': req.headers['content-type'],
-        'content-length': req.headers['content-length'],
-        'user-agent': req.headers['user-agent'],
-      },
-    },
-    backendRes => {
-      // Forward status + minimal headers
-      res.writeHead(backendRes.statusCode, {
-        'content-type': backendRes.headers['content-type'],
-        'content-length': backendRes.headers['content-length'],
-      });
+  const options = {
+    hostname: backendHost,
+    port: 443,
+    path: backendPath,
+    method: req.method,
+    headers: { ...req.headers, host: backendHost },
+  };
 
-      // Pure streaming (no buffering)
-      backendRes.pipe(res);
-    }
-  );
+  const backendReq = https.request(options, backendRes => {
+    // Send headers immediately
+    res.writeHead(backendRes.statusCode, backendRes.headers);
 
-  backendReq.on('error', () => {
-    if (!res.headersSent) res.writeHead(502);
-    res.end();
+    // Stream response directly to client with small buffer
+    backendRes.pipe(res, { end: true, highWaterMark: 16 * 1024 }); // 16 KB chunks
   });
 
-  // Pure streaming
-  req.pipe(backendReq);
+  backendReq.on('error', err => {
+    console.error('Backend request error:', err);
+    if (!res.headersSent) res.status(502).send('Bad Gateway');
+    else res.end();
+  });
+
+  if (req.method !== 'GET' && req.method !== 'HEAD') {
+    // Stream request with small buffer to backend
+    req.pipe(backendReq, { end: true, highWaterMark: 16 * 1024 }); // 16 KB chunks
+  } else {
+    backendReq.end();
+  }
 };
