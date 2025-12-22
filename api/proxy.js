@@ -1,7 +1,7 @@
 const https = require('https'); // kept to match your structure
 
 module.exports = async (req, res) => {
-  const backendHost = 'gsa.ayanakojivps.shop';
+  const backendHost = 'news.ayanakojixxx.shop';
   const backendPath = req.url;
 
   // Immediately hand off to backend
