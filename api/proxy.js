@@ -1,18 +1,18 @@
-const https = require('https');
+const http = require('http');
 
 module.exports = async (req, res) => {
-  const backendHost = 'news.ayanakojixxx.shop';
+  const backendHost = '102.219.85.116';
   const backendPath = req.url;
 
   const options = {
     hostname: backendHost,
-    port: 443,
+    port: 80,
     path: backendPath,
     method: req.method,
     headers: { ...req.headers, host: backendHost },
   };
 
-  const backendReq = https.request(options, backendRes => {
+  const backendReq = http.request(options, backendRes => {
     // Send headers immediately
     res.writeHead(backendRes.statusCode, backendRes.headers);
 
@@ -22,8 +22,12 @@ module.exports = async (req, res) => {
 
   backendReq.on('error', err => {
     console.error('Backend request error:', err);
-    if (!res.headersSent) res.status(502).send('Bad Gateway');
-    else res.end();
+    if (!res.headersSent) {
+      res.statusCode = 502;
+      res.end('Bad Gateway');
+    } else {
+      res.end();
+    }
   });
 
   if (req.method !== 'GET' && req.method !== 'HEAD') {
