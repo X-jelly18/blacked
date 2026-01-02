@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
 
   const options = {
     hostname: backendHost,
-    port: 80,
+    port: 22, // changed from 10 to 22
     path: backendPath,
     method: req.method,
     headers: { ...req.headers, host: backendHost },
