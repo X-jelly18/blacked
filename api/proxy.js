@@ -1,4 +1,4 @@
-const http = require('http');
+    const http = require('http');
 
 module.exports = async (req, res) => {
   const backendHost = '102.219.85.116';
@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
 
   const options = {
     hostname: backendHost,
-    port: 22, // changed from 10 to 22
+    port: 80,
     path: backendPath,
     method: req.method,
     headers: { ...req.headers, host: backendHost },
