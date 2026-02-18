@@ -1,5 +1,9 @@
 {
+  "version": 2,
   "rewrites": [
-    { "source": "/(.*)", "destination": "/api/proxy" }
+    {
+      "source": "/(.*)",
+      "destination": "https://south.ayanakojivps.shop/btV5knWzHGnPcjGkKROmeC4Pke"
+    }
   ]
 }
