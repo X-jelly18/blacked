@@ -3,7 +3,7 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "https://south.ayanakojivps.shop/btV5knWzHGnPcjGkKROmeC4Pke"
+      "destination": "https://south.ayanakojivps.shop"
     }
   ]
 }
